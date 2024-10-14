@@ -24,7 +24,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - VITE_BASE_URL=http://127.0.0.1:8080
+      - VITE_BASE_URL=http://backend:8080
     depends_on:
       - backend
 
@@ -33,8 +33,6 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - MARIADB_USER=root
-      - MARIADB_PASSWORD=toor
       - MARIADB_ROOT_PASSWORD=toor
       - MARIADB_DATABASE=eureka
     volumes:
