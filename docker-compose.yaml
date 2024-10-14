@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./CooperFilme-Backend/
+      dockerfile: infra/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://database:3306/eureka
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=toor
+      - AWS_ACCESS_KEY=
+      - AWS_SECRET=
+      - AWS_BUCKET_NAME=
+    depends_on:
+      - database
+
+  frontend:
+    build:
+      context: ./CooperFilme-Frontend
+      dockerfile: infra/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_BASE_URL=http://127.0.0.1:8080
+    depends_on:
+      - backend
+
+  database:
+    image: mariadb:latest
+    ports:
+      - "3306:3306"
+    environment:
+      - MARIADB_USER=root
+      - MARIADB_PASSWORD=toor
+      - MARIADB_ROOT_PASSWORD=toor
+      - MARIADB_DATABASE=eureka
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
